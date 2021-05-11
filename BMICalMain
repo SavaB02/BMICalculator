@@ -1,0 +1,253 @@
+Imports System.IO 'pre-defined library for file i/o operations.
+''' <summary>
+''' I am implementing a standart BMI calculator, which consists of 5 main options(1.calculate BMI, 2.save result, 3.display BMI, 4.help, 5.exit).
+''' The program calculates BMI by using cm and kg units. The program will create a .txt file to save data, that user enter. User can have 3 different profiles.
+''' </summary>
+''' Author: SB
+''' Date created: 6/02/2020
+''' Date modified: 11/02/2020
+
+Module mdlBMICalculator
+    Dim UserOption As String        'declarating global variable as a option for user to choose
+    Dim UserInfo(3) As UserData        'declarating global variable as a 'UserData' structure and setting an array of 4 variables.
+
+    Sub Main()
+        Call MainMenu()     'Showing main menu
+    End Sub
+    Sub MainMenu()      'creating a new sub to divide code into separate sections
+        Do      'looping the menu                 
+            Console.Clear()     'to clean everything that was before the main menu
+            Console.WriteLine(" _________________________________")
+            Console.WriteLine("|         BMI calculator          |")
+            Console.WriteLine("|_________________________________|")
+            Console.WriteLine("| Please select from the options  |")
+            Console.WriteLine("| below  and press enter.         |")    'program design
+            Console.WriteLine("|_________________________________|")
+            Console.WriteLine("| 1. Calculate BMI                |")
+            Console.WriteLine("| 2. Save result                  |")
+            Console.WriteLine("| 3. Display BMI                  |")
+            Console.WriteLine("| 4. Help                         |")
+            Console.WriteLine("| 5. Exit                         |")
+            Console.WriteLine("|_________________________________|")
+            UserOption = Console.ReadLine()     'making user's input equal to 'UserOption' variable
+            Call UserInput()                    'displaying UserInput sub
+        Loop
+    End Sub             'closing sub
+    Sub UserInput()
+        Select Case UserOption  'allows you to assign a specific input to perform certain tasks
+            'displaying different menu options by calling subs and clearing everything that was displayed before
+            Case "1"
+                Console.Clear()
+                Call BMICalculation()
+            Case "2"
+                Console.Clear()
+                Call SaveResult()
+            Case "3"
+                Console.Clear()
+                Call DisplayBMI()
+            Case "4"
+                Console.Clear()
+                Call HelpMenu()
+            Case "5"
+                Call ExitMenu()
+            Case Else
+                Console.WriteLine("Wrong input, please enter correct option.")      'error message in case user choose wrong option
+                Console.WriteLine("Press 'enter' to continue.")
+                Console.ReadLine()
+                Console.Clear()
+        End Select
+        Console.Clear()
+    End Sub
+    Sub BMICalculation()
+        Do
+            Console.WriteLine("You can create three user profiles. Choose which one you want to use.")
+            Console.WriteLine("1. Profile 1")
+            Console.WriteLine("2. Profile 2")      'design
+            Console.WriteLine("3. Profile 3")
+            Console.WriteLine("4. Exit to main menu")
+            Console.WriteLine("*Type the number and press enter.")      'tip for user
+            UserOption = Console.ReadLine()
+            Select Case UserOption
+                Case "1"
+                    Console.Clear()
+                    Console.WriteLine("Profile 1. Please enter your name.")        'tip for user
+                    UserInfo(1).Name = Console.ReadLine         'making user's input equal to 'UserInfo.Name' variable in structure
+                    Console.WriteLine("Please enter your height in cm.")
+                    UserInfo(1).Height = Console.ReadLine       'making user's input equal to 'UserInfo.Height' variable in structure
+                    Console.WriteLine("Please enter your weight in kg.")
+                    UserInfo(1).Weight = Console.ReadLine       'making user's input equal to 'UserInfo.Weight' variable in structure
+                    UserInfo(1).Height = UserInfo(1).Height / 100           'convering cm to m for the formula
+                    UserInfo(1).Result = UserInfo(1).Weight / (UserInfo(1).Height * UserInfo(1).Height)     'formula for BMI calculation
+                    Console.WriteLine("Your BMI is " & UserInfo(1).Result & ".")    'shows user the answer 
+                    Console.WriteLine("Press 'enter' to go back to profile selection screen.")  'tip for user
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "2"
+                    Console.Clear()
+                    Console.WriteLine("Profile 2. Please enter your name.")        'tip for user
+                    UserInfo(2).Name = Console.ReadLine         'making user's input equal to 'UserInfo.Name' variable in structure
+                    Console.WriteLine("Please enter your height in cm.")
+                    UserInfo(2).Height = Console.ReadLine       'making user's input equal to 'UserInfo.Height' variable in structure
+                    Console.WriteLine("Please enter your weight in kg.")
+                    UserInfo(2).Weight = Console.ReadLine       'making user's input equal to 'UserInfo.Weight' variable in structure
+                    UserInfo(2).Height = UserInfo(2).Height / 100           'convering cm to m for the formula
+                    UserInfo(2).Result = UserInfo(2).Weight / (UserInfo(2).Height * UserInfo(2).Height)     'formula for BMI calculation
+                    Console.WriteLine("Your BMI is " & UserInfo(2).Result & ".")    'shows user the answer 
+                    Console.WriteLine("Press 'enter' to go back to profile selection screen.")  'tip for user
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "3"
+                    Console.Clear()
+                    Console.WriteLine("Profile 3. Please enter your name.")        'tip for user
+                    UserInfo(3).Name = Console.ReadLine         'making user's input equal to 'UserInfo.Name' variable in structure
+                    Console.WriteLine("Please enter your height in cm.")
+                    UserInfo(3).Height = Console.ReadLine       'making user's input equal to 'UserInfo.Height' variable in structure
+                    Console.WriteLine("Please enter your weight in kg.")
+                    UserInfo(3).Weight = Console.ReadLine       'making user's input equal to 'UserInfo.Weight' variable in structure
+                    UserInfo(3).Height = UserInfo(3).Height / 100           'convering cm to m for the formula
+                    UserInfo(3).Result = UserInfo(3).Weight / (UserInfo(3).Height * UserInfo(3).Height)     'formula for BMI calculation
+                    Console.WriteLine("Your BMI is " & UserInfo(3).Result & ".")    'shows user the answer 
+                    Console.WriteLine("Press 'enter' to go back to profile selection screen.")  'tip for user
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "4"
+                    Call MainMenu()
+                Case Else
+                    Console.WriteLine("Wrong input, please enter correct option.")      'error message in case user choose wrong option
+                    Console.WriteLine("Press 'enter' to continue.")
+                    Console.ReadLine()
+                    Console.Clear()
+            End Select
+        Loop
+        Console.Clear()
+        Console.WriteLine("You have created three user's profiles.")
+        Console.WriteLine("Press 'enter' to go back to main menu.")         'tip for user
+        Console.ReadLine()
+    End Sub
+    Sub SaveResult()
+        Dim SW As New StreamWriter("\\mcfs01\StudentHome\20014502\IT\BMICalculatorProfiles.txt")      'declaraiting SW as a streamwriter for the .txt file to which data will be recorded
+        Dim i As Integer        'declaraiting variable 'i'(local variable)
+        Do      'starting a loop
+            Console.WriteLine("Do you really want to save your previous BMI results?")      'tip for user
+            Console.WriteLine("Press 'y' to save or 'n' to go back to main menu")
+            UserOption = Console.ReadLine()     'making 'UserOption' variable equal to user's input
+            Select Case UserOption              'using a control structure to the user could choose the appropriate option
+                Case "y"        'if user type 'y' that option will happend 
+                    SW.WriteLine("Those are your previous profiles:")
+                    For i = 1 To 3      'creating a loop which ends when all three variables 'i' are scrolled
+                        'displaying user's profiles in order
+                        SW.WriteLine(i & ". " & UserInfo(i).Name)
+                        SW.WriteLine("Height. " & UserInfo(i).Height & "m")
+                        SW.WriteLine("Weight. " & UserInfo(i).Weight & "kg")
+                        SW.WriteLine("BMI. " & UserInfo(i).Result)
+                        SW.WriteLine("")
+                    Next        'ending loop, so that once it reaches 3, code will continue to execute
+                    SW.Close()      'closing streamwriter, so the data can now be read
+                    Console.WriteLine("All profiles were saved. Press 'enter' to go back to main menu.")        'tip for user
+                    Console.ReadLine()
+                    Call MainMenu()
+                Case "n"        'if user type 'n' that option will happend 
+                    Call MainMenu()
+                Case Else       'if there will be any other input not listed above then this will appear
+                    Console.WriteLine("Wrong input, please enter correct option.")
+                    Console.WriteLine("Press 'enter' to continue.")     'tip for user
+                    Console.ReadLine()
+                    Console.Clear()
+            End Select                           'closing control structure
+        Loop        'closing the loop
+    End Sub
+    Sub DisplayBMI()
+        Dim i As Integer        'declaraiting variable 'i'(local variable)
+        Console.WriteLine("Those are your previous profiles:")
+        For i = 1 To 3      'creating a loop to list all user's data
+            Console.WriteLine(i & ". " & UserInfo(i).Name)
+            Console.WriteLine("Height. " & UserInfo(i).Height & "m")        'displaying user's profiles data
+            Console.WriteLine("Weight. " & UserInfo(i).Weight & "kg")
+            Console.WriteLine("BMI. " & UserInfo(i).Result)
+        Next        'closing the loop
+        Console.WriteLine("")       'making a gap between text
+        Console.WriteLine("***If you want to save those profiles you can press 'enter' and select option 2 in the main menu.")      'some advices for user
+        Console.WriteLine("***If you want to create another profiles you can press 'enter' and select option 1 in the main menu.")
+        Console.ReadLine()
+    End Sub
+    Sub HelpMenu()
+        Do
+            Console.WriteLine("What help do you need?")     'tip for user
+            Console.WriteLine("1. How to use a program?")
+            Console.WriteLine("2. What do the options do?")         'design for options that user can choose
+            Console.WriteLine("3. Tips and advices.")
+            Console.WriteLine("4. Program description.")
+            Console.WriteLine("5. What is BMI?")
+            Console.WriteLine("6. Exit to the main menu")
+            UserOption = Console.ReadLine()     'making 'UserOption' variable equal to user's input
+            Console.Clear()
+            Select Case UserOption      'using a control structure to the user could choose the appropriate option
+                Case "1"
+                    Console.WriteLine("To navigate in program you should select appropriate options and press enter. ")
+                    Console.WriteLine("Press 'enter' to go back to Help Menu.")
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "2"
+                    Console.WriteLine("Option 1 - Calculates user's BMI by asking Name for the profile,")
+                    Console.WriteLine("height and weight. Than user recieve its BMI, that is saved to a")
+                    Console.WriteLine("specific profile.")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Option 2 - Saves all user's profiles to a .txt file with all user's")
+                    Console.WriteLine("data, including name, height, weight and BMI.")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Option 3 - Displays all the profiles, that were created during BMI calculations")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Option 4 - Help menu, with guidance and suggestions for the user.")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Option 5 - Option to quit the program")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Press 'enter' to go back to Help Menu.")
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "3"
+                    Console.WriteLine("1. If you choose an option you should type only values, that are required. Otherwise you'll recieve an error or crash a program.")
+                    Console.WriteLine("2. You should input correct weight and height to recieve a proper BMI and make sure you write them in the correct unit.")
+                    Console.WriteLine("3. Read carefully all the tip messages, that can help you understand what to do further in the program.")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Press 'enter' to go back to Help Menu.")
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "4"
+                    Console.WriteLine("It is a standart BMI calculator, which consists of 5 main options(1.calculate BMI, 2.save result, 3.display BMI, 4.help, 5.exit).")
+                    Console.WriteLine("The program calculates BMI by using cm and kg units. User can have 3 different profiles.")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Press 'enter' to go back to Help Menu.")
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "5"
+                    Console.WriteLine("The body mass index (BMI) is a measure that uses your height and weight to work out if your weight is healthy.")
+                    Console.WriteLine("For most adults, BMI range is:")
+                    Console.WriteLine("1. Below 18.5 - you're in the underweight range")
+                    Console.WriteLine("2. Between 18.5 and 24.9 - you're in the healthy weight range")
+                    Console.WriteLine("3. Between 25 and 29.9 - you're in the overweight range")
+                    Console.WriteLine("4. Between 30 and 39.9 – you're in the obese range")
+                    Console.WriteLine("______________________________________")
+                    Console.WriteLine("Press 'enter' to go back to Help Menu.")
+                    Console.ReadLine()
+                    Console.Clear()
+                Case "6"
+                    Call MainMenu()
+                Case Else
+                    Console.WriteLine("Wrong input, please enter correct option.")
+                    Console.WriteLine("Press 'enter' to continue.")         'error message
+                    Console.ReadLine()
+                    Console.Clear()
+            End Select
+        Loop
+
+    End Sub
+    Sub ExitMenu()
+        End         'command that will close the program
+    End Sub
+    Structure UserData      'making a structure 
+        Dim Height As Single
+        Dim Weight As Single                'declarating variables in structure
+        Dim Result As Single
+        Dim Name As String
+    End Structure           'closing a structure
+End Module
